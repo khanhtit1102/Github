@@ -41,80 +41,137 @@ class Admin_Panel extends CI_Controller {
 				$comment['content_chat'] = $this->input->post('content_chat');
 				$comment['date_chat'] = date("Y-m-d H:i:s");
 				$model->add_chat($comment);
-				redirect(base_url('admin_panel?page=dashboard'));
+				redirect(base_url('admin_panel'));
 			}
 		}
-		$page = $this->input->get('page');
+		$page = 'dashboard';
 		$view->index($dashboard_count, $admin_chat, $page);
 	}
 	public function qltv()
 	{
 		$model = new M_Admin();
 		$view = new V_Admin();
-
-		if ($this->input->get('delete')) {
-			$id = $this->input->get('delete');
-			$model->delete_user($id);
-		}
-		if ($this->input->post('add_user') == 'add') {
-			$username = $this->input->post('name');
-			$email = $this->input->post('email');
-			$pass = md5($this->input->post('pass'));
-			$this->load->model('m_auth');
-			$model_add = new M_Auth();
-			$model_add->register($username, $email, $pass);
-		}
-
-		if($this->input->post('search') == 'search'){
-			$keyword = $this->input->post('keyword');
-			$name = $this->input->post('name');
-			$this->session->set_userdata("type_member", $name);
-			$this->session->set_userdata("keyword_member", $keyword);
-		}
-		else{
-			if ($this->session->has_userdata('type_member') && $this->session->has_userdata('keyword_member')) {
-				$name = $this->session->userdata('type_member');
-				$keyword = $this->session->userdata('keyword_member');
-			} else {
-				$name = '1';
-				$keyword = '';
-			}
-		}
-		$model->search_member($name, $keyword);
 		$result = $model->qltv();
-		
-		$view->qltv($result);
+		$page = 'qltv';
+		$view->qltv($result, $page);
 	}
-	public function edit()
+	public function edit_user($id = '')
 	{
-		if ($this->input->get('user')) {
-			$id = $this->input->get('user');
-			$key = 'id_user';
-			$table = 'user';
-		}
-		elseif ($this->input->get('course')) {
-			$id = $this->input->get('course');
-			$key = 'id_cs';
-			$table = 'course';
-		}
-		else{
+		$model = new M_Admin();
+		$view = new V_Admin();
+		if ($id == null) {
 			redirect(base_url('admin_panel/qltv'));
 		}
+		else{
+			if ($this->input->post('update_user') == 'submit') {
+				$data['id_user'] = $id;
+				$data['name_user'] = $this->input->post('name_user');
+				$data['sex_user'] = $this->input->post('sex_user');
+				$data['email_user'] = $this->input->post('email_user');
+				$data['job_user'] = $this->input->post('job_user');
+				$data['about_user'] = $this->input->post('about_user');
+				$data['coin_user'] = $this->input->post('coin_user');
+				$data['permission_user'] = $this->input->post('permission_user');
 
-		// Bắt sự kiện edit
-		if ($this->input->post('update') == 'user') {
-			$data['id'] = $id;
-			$data['name'] = $this->input->post('name');
-			$data['email'] = $this->input->post('email');
-			$data['job'] = $this->input->post('job');
-			$data['about'] = $this->input->post('about');
-			$data['permission'] = $this->input->post('permission');
-			
-			$model_update = new M_Admin();
-			$model_update->update_user($data);
+				$model_update = new M_Admin();
+				$model_update->update_user($data);
+				redirect(base_url('admin_panel/qltv'));
+			}
+			$result = $model->show_one_user($id);
+			$page = 'edit_user';
+			$view->edit_user($result, $page);
 		}
-		if ($this->input->post('update') == 'course') {
-			$data['id_cs'] = $id;
+	}
+	public function delete_user($id = '')
+	{
+		$model = new M_Admin();
+		if ($id == null) {
+			redirect(base_url('admin_panel/qltv'));
+		}
+		else{
+			$model->delete_user($id);
+			redirect(base_url('admin_panel/qltv'));
+		}
+	}
+	public function add_user()
+	{
+		$model = new M_Admin();
+		$view = new V_Admin();
+		if ($this->input->post('add_user') == 'submit') {
+			$data['name_user'] = $this->input->post('name_user');
+			$data['pass_user'] = md5($this->input->post('pass_user'));
+			$data['sex_user'] = $this->input->post('sex_user');
+			$data['email_user'] = $this->input->post('email_user');
+			$data['job_user'] = $this->input->post('job_user');
+			$data['about_user'] = $this->input->post('about_user');
+			$data['coin_user'] = $this->input->post('coin_user');
+			$data['permission_user'] = $this->input->post('permission_user');
+			$data['created_date'] = date("Y-m-d H:i:s");;
+
+			$model_update = new M_Admin();
+			$model_update->add_user($data);
+			redirect(base_url('admin_panel/qltv'));
+		}
+		$page = 'add_user';
+		$view->add_user($page);
+	}
+	public function qlkh()
+	{
+		$model = new M_Admin();
+		$view = new V_Admin();
+
+		$result = $model->qlkh();
+		$page = 'qlkh';
+		$view->qlkh($result, $page);
+	}
+	public function edit_course($id = '')
+	{
+		$model = new M_Admin();
+		$view = new V_Admin();
+		if ($id == null) {
+			redirect(base_url('admin_panel/qlkh'));
+		}
+		else{
+			if ($this->input->post('update_course') == 'submit') {
+				$data['id_cs'] = $id;
+				$data['ten_cs'] = $this->input->post('ten_cs');
+				$data['info_cs'] = $this->input->post('info_cs');
+				$data['tc_cs'] = $this->input->post('tc_cs');
+				$data['mota_cs'] = $this->input->post('mota_cs');
+				$data['giaotrinh_cs'] = $this->input->post('giaotrinh_cs');
+				$data['gia_cs'] = $this->input->post('gia_cs');
+				$data['id_cate'] = $this->input->post('theloai_cs');
+				$data['sobh_cs'] = $this->input->post('sobh_cs');
+				$data['time_cs'] = $this->input->post('time_cs');
+				$data['playlist_key'] = $this->input->post('playlist_key');
+
+				$model_update = new M_Admin();
+				$model_update->update_course($data);
+				redirect(base_url('admin_panel/qlkh'));
+			}
+			
+			
+			$result = $model->show_one_course($id);
+			$page = 'edit_course';
+			$view->edit_course($result, $page);
+		}
+	}
+	public function delete_course($id = '')
+	{
+		$model = new M_Admin();
+		if ($id == null) {
+			redirect(base_url('admin_panel/qlkh'));
+		}
+		else{
+			$model->delete_course($id);
+			redirect(base_url('admin_panel/qlkh'));
+		}
+	}
+	public function add_course()
+	{
+		$model_update = new M_Admin();
+		$view = new V_Admin();
+		if ($this->input->post('add_course') == 'submit') {
 			$data['ten_cs'] = $this->input->post('ten_cs');
 			$data['info_cs'] = $this->input->post('info_cs');
 			$data['tc_cs'] = $this->input->post('tc_cs');
@@ -124,63 +181,13 @@ class Admin_Panel extends CI_Controller {
 			$data['id_cate'] = $this->input->post('theloai_cs');
 			$data['sobh_cs'] = $this->input->post('sobh_cs');
 			$data['time_cs'] = $this->input->post('time_cs');
-			
-			
-			$model_update = new M_Admin();
-			$model_update->update_course($data);
-		}
+			$data['playlist_key'] = $this->input->post('playlist_key');
+			$data['created_date'] = date("Y-m-d");;
 
-		$model = new M_Admin();
-		$result = $model->showone($id, $key, $table);
-		$view = new V_Admin();
-		if ($table == 'user') {
-			$view->edit_user($result);
+			$model_update->add_course($data);
+			redirect(base_url('admin_panel/qltv'));
 		}
-		if ($table == 'course') {
-			$view->edit_course($result);
-		}
-	}
-	public function qlkh()
-	{
-		$model = new M_Admin();
-		$view = new V_Admin();
-
-		if ($this->input->get('delete')) {
-			$id = $this->input->get('delete');
-			$model->delete_course($id);
-		}
-		if ($this->input->post('add_course') == 'add') {
-			$item['ten_cs'] = $this->input->post('ten');
-			$item['info_cs'] = $this->input->post('info');
-			$item['tc_cs'] = $this->input->post('tc');
-			$item['mota_cs'] = $this->input->post('mota');
-			$item['giaotrinh_cs'] = $this->input->post('giaotrinh');
-			$item['gia_cs'] = $this->input->post('price');
-			$item['id_cate'] = $this->input->post('theloai');
-			$item['sobh_cs'] = $this->input->post('sobh');
-			$item['time_cs'] = $this->input->post('time');
-
-			$this->load->model('m_admin');
-			$model_add = new M_Admin();
-			$model_add->add_course($item);
-		}
-		$result = $model->qlkh();
-		
-		$view->qlkh($result);
-	}
-	public function cancel_search()
-	{
-		$this->session->unset_userdata('type_member');
-		$this->session->unset_userdata('keyword_member');
-		switch ($this->input->get('page')) {
-			case 'qltv':
-				redirect(base_url('admin_panel/qltv'));
-				break;
-
-			case 'qlkh':
-				redirect(base_url('admin_panel/qlkh'));
-				break;
-		}
-		
+		$page = 'add_course';
+		$view->add_course($page);
 	}
 }

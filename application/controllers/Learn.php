@@ -8,7 +8,6 @@ class Learn extends CI_Controller {
 		parent::__construct();
 		$this->load->helper(array('url', 'form'));	
 		$this->load->library("session");
-		date_default_timezone_set('Asia/Ho_Chi_Minh');
 		if ($this->session->has_userdata('id_user') == false) {
 			redirect(base_url('auth/login'));
 		}
@@ -23,11 +22,13 @@ class Learn extends CI_Controller {
 		
 		# Kiểm tra sở hữu khóa học
 		$id_user = $this->session->userdata('id_user');
-		$id_cs;
+		$per_user = $this->session->userdata('permission_user');
 		$check = $model->check_own($id_user, $id_cs);
-		if ($check < 1) {
-			echo "<script type='text/javascript'>alert('Bạn chưa sở hữu khóa học này!');</script>";
-			echo "<meta http-equiv='refresh' content='0; url=".base_url('courses')."' />";
+		if ($per_user != 3) {
+			if ($check != 1) {
+				echo "<script type='text/javascript'>alert('Bạn chưa sở hữu khóa học này!');</script>";
+				echo "<meta http-equiv='refresh' content='0; url=".base_url('courses')."' />";
+			}
 		}
 		//Thêm comment
 		if ($this->input->post('comment') == 'submit') {

@@ -80,18 +80,20 @@
 									<td><?php echo $value['coin_user']; ?></td>
 									<td>
 									<?php 
-										if($value["permission_user"] == 1){
-											echo '<i style="color: blue;">Member</i>';
-										}
-										elseif ($value["permission_user"] == 2) {
-											echo '<i style="color: green;">Teacher</i>';
-										}
-										elseif ($value["permission_user"] == 3) {
-											echo '<i style="color: red;">Admin</i>';
-										}
-										else{
-											echo 'Non-Active';
-										}
+									switch ($value["permission_user"]) {
+										case '1':
+										echo '<i style="color: blue;">Member</i>';
+										break;
+										case '2':
+										echo '<i style="color: green;">Teacher</i>';
+										break;
+										case '3':
+										echo '<i style="color: red;">Admin</i>';
+										break;
+										default:
+										echo 'Non-Active';
+										break;
+									}
 									 ?>
 									</td>
 									<td>

@@ -7,20 +7,24 @@ class V_Admin
 	{
 		include "res/admin/index.php";
 	}
-	public function qltv($result)
+	public function qltv($result, $page)
 	{
-		include "res/admin/ql-tv.php";
+		include "res/admin/index.php";
 	}
-	public function edit_user($result)
+	public function edit_user($result, $page)
 	{
-		include "res/admin/edit-user.php";
+		include "res/admin/index.php";
 	}
-	public function edit_course($result)
+	public function add_user($page)
 	{
-		include "res/admin/edit-course.php";
+		include "res/admin/index.php";
 	}
-	public function qlkh($result)
+	public function edit_course($page)
 	{
-		include "res/admin/ql-kh.php";
+		include "res/admin/index.php";
+	}
+	public function qlkh($result, $page)
+	{
+		include "res/admin/index.php";
 	}
 }

@@ -43,23 +43,31 @@ class M_Admin extends CI_Model
 	}
 	public function delete_user($id)
 	{
+		$this->db->where('id_user', $id)->delete('adminchat');
+		$this->db->where('id_user', $id)->delete('cart');
+		$this->db->where('id_user', $id)->delete('own');
 		$this->db->where('id_user', $id)->delete('user');
 	}
-	public function showone($id, $key, $table)
+	public function show_one_user($id)
 	{
-		$this->db->from($table)->where($key, $id);
+		$this->db->from('user')->where('id_user', $id);
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+	public function show_one_course($id)
+	{
+		$this->db->from('course')->where('id_cs', $id);
 		$query = $this->db->get();
 		return $query->result_array();
 	}
 	public function update_user($data)
 	{
-		$this->db->set('name_user', $data['name']);
-		$this->db->set('email_user', $data['email']);
-		$this->db->set('job_user', $data['job']);
-		$this->db->set('about_user', $data['about']);
-		$this->db->set('permission_user', $data['permission']);
-		$this->db->where('id_user', $data['id']);
-		$this->db->update('user');
+		$this->db->where('id_user', $data['id_user']);
+		$this->db->update('user', $data);
+	}
+	public function add_user($data)
+	{
+		$this->db->insert('user', $data);
 	}
 	public function qlkh()
 	{
@@ -68,12 +76,14 @@ class M_Admin extends CI_Model
 	}
 	public function delete_course($id)
 	{
+		$this->db->where('id_cs', $id)->delete('cmt');
+		$this->db->where('id_cs', $id)->delete('own');
+		$this->db->where('id_cs', $id)->delete('cart');
 		$this->db->where('id_cs', $id)->delete('course');
 	}
-	public function add_course($item)
+	public function add_course($data)
 	{
 		$this->db->insert('course', $item);
-		echo "<script type='text/javascript'>alert('Thêm khóa học thành công!');</script>";
 	}
 	public function update_course($data)
 	{
