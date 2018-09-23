@@ -83,7 +83,7 @@ class M_Admin extends CI_Model
 	}
 	public function add_course($data)
 	{
-		$this->db->insert('course', $item);
+		$this->db->insert('course', $data);
 	}
 	public function update_course($data)
 	{
@@ -93,5 +93,11 @@ class M_Admin extends CI_Model
 	public function search_member($name, $keyword)
 	{
 		$this->db->like($name, $keyword);
+	}
+	public function qldh()
+	{
+		$this->db->select('own.*, user.name_user, course.ten_cs')->where('own.id_user = user.id_user AND own.id_cs = course.id_cs');
+		$query = $this->db->get('own,user,course');
+		return $query->result_array();
 	}
 }

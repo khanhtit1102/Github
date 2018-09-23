@@ -53,7 +53,9 @@
 			<td><?php echo $value['created_date']; ?></td>
 			<td>
 				<a class="btn btn-primary" href="edit_user/<?php echo $value['id_user']; ?>"><i class="fa fa-edit"></i></a>
-				<a class="btn btn-danger" href="delete_user/<?php echo $value['id_user']; ?>" onclick="return confirm('Bạn thực sự muốn xóa thành viên này?')"><i class="fa fa-times"></i></a>
+				<?php if($value['id_user'] != 1 && $value['id_user'] != $_SESSION['id_user']){ ?>
+					<a class="btn btn-danger" href="delete_user/<?php echo $value['id_user']; ?>" onclick="return confirm('Bạn thực sự muốn xóa thành viên này?')"><i class="fa fa-times"></i></a>
+				<?php } ?>
 			</td>
 		</tr>
 	<?php } ?>

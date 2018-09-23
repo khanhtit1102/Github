@@ -41,6 +41,9 @@ class Learn extends CI_Controller {
 		}
 		
 		$course = $model->show_once($id_cs);
+		if ($course == null) {
+			redirect(base_url('courses'));
+		}
 		$comment = $model->show_comment($id_cs);
 		
 		$view->index($course, $comment);

@@ -174,7 +174,7 @@ class Admin_Panel extends CI_Controller {
 		if ($this->input->post('add_course') == 'submit') {
 			$data['ten_cs'] = $this->input->post('ten_cs');
 			$data['info_cs'] = $this->input->post('info_cs');
-			$data['tc_cs'] = $this->input->post('tc_cs');
+			$data['tc_cs'] = $this->session->userdata('name_user');
 			$data['mota_cs'] = $this->input->post('mota_cs');
 			$data['giaotrinh_cs'] = $this->input->post('giaotrinh_cs');
 			$data['gia_cs'] = $this->input->post('gia_cs');
@@ -185,9 +185,18 @@ class Admin_Panel extends CI_Controller {
 			$data['created_date'] = date("Y-m-d");;
 
 			$model_update->add_course($data);
-			redirect(base_url('admin_panel/qltv'));
+			redirect(base_url('admin_panel/qlkh'));
 		}
 		$page = 'add_course';
 		$view->add_course($page);
+	}
+	public function qldh()
+	{
+		$model = new M_Admin();
+		$view = new V_Admin();
+
+		$result = $model->qldh();
+		$page = 'qldh';
+		$view->qldh($result, $page);
 	}
 }

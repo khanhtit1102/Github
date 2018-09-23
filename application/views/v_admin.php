@@ -1,6 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+
 class V_Admin
 {
 	public function index($dashboard_count, $admin_chat, $page)
@@ -19,11 +20,19 @@ class V_Admin
 	{
 		include "res/admin/index.php";
 	}
-	public function edit_course($page)
+	public function edit_course($result, $page)
+	{
+		include "res/admin/index.php";
+	}
+	public function add_course($page)
 	{
 		include "res/admin/index.php";
 	}
 	public function qlkh($result, $page)
+	{
+		include "res/admin/index.php";
+	}
+	public function qldh($result, $page)
 	{
 		include "res/admin/index.php";
 	}
