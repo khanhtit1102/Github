@@ -20,6 +20,10 @@ class V_Admin
 	{
 		include "res/admin/index.php";
 	}
+	public function chart_user($result, $page)
+	{
+		include "res/admin/index.php";
+	}
 	public function edit_course($result, $page)
 	{
 		include "res/admin/index.php";
@@ -32,7 +36,23 @@ class V_Admin
 	{
 		include "res/admin/index.php";
 	}
+	public function chart_course($result, $page)
+	{
+		include "res/admin/index.php";
+	}
 	public function qldh($result, $page)
+	{
+		include "res/admin/index.php";
+	}
+	public function chart_order($result, $page)
+	{
+		include "res/admin/index.php";
+	}
+	public function qlbl($result, $page)
+	{
+		include "res/admin/index.php";
+	}
+	public function chart_cmt($result, $page)
 	{
 		include "res/admin/index.php";
 	}

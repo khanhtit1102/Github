@@ -36,7 +36,7 @@ class Learn extends CI_Controller {
 			$item['ten_cmt'] = $this->input->post('txtname');
 			$item['email_cmt'] = $this->input->post('txtemail');
 			$item['nd_cmt'] = $this->input->post('txtnd');
-			$item['ngay_cmt'] = date("Y-m-d");
+			$item['ngay_cmt'] = date("Y-m-d H:i:s");
 			$model->add_comment($item);
 		}
 		

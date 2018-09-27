@@ -34,7 +34,7 @@
 			</li>
 			<ul class="sub-menu collapse" id="order">
 				<li><a href="<?php echo base_url('admin_panel/qldh') ?>"> Quản lý đơn hàng</a></li>
-				<li>Thống kê đơn hàng</li>
+				<li><a href="<?php echo base_url('admin_panel/chart_order') ?>"> Thống kê khóa học</a></li>
 			</ul>
 
 			
@@ -42,8 +42,8 @@
 				<a><i class="fa fa-comments fa-lg"></i> Bình luận <span class="arrow"></span></a>
 			</li>
 			<ul class="sub-menu collapse" id="comment">
-				<li><a href="<?php echo base_url('admin_panel/qldh') ?>"> Quản lý bình luận</a></li>
-				<li>Thống kê bình luận</li>
+				<li><a href="<?php echo base_url('admin_panel/qlbl') ?>"> Quản lý bình luận</a></li>
+				<li><a href="<?php echo base_url('admin_panel/chart_cmt') ?>"> Thống kê khóa học</a></li>
 			</ul>
 
 
@@ -54,7 +54,7 @@
 			</li>
 
 			<li>
-				<a href="<?php echo base_url('auth/logout') ?>">
+				<a href="<?php echo base_url('auth/logout') ?>" onclick="return confirm('Bạn thực sự muốn đăng xuất?')">
 					<i class="fa fa-sign-out fa-lg"></i> Đăng xuất
 				</a>
 			</li>

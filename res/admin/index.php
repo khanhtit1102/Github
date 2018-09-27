@@ -28,7 +28,7 @@
 	<script type="text/javascript" src="<?php echo base_url('res/') ?>js/webjs.js"></script>
 	<script type="text/javascript" src="<?php echo base_url('res/') ?>js/raphael-min.js"></script>
 	<script type="text/javascript" src="<?php echo base_url('res/') ?>js/morris.js"></script>
-	<script type="text/javascript" src="<?php echo base_url('res/') ?>js/chart-data.js"></script>
+	<script type="text/javascript" src="<?php echo base_url('res/js/chart-').$page.'.js' ?>"></script>
 	<script type="text/javascript" src="<?php echo base_url('res/') ?>js/jscustom.js"></script>
 	<script type="text/javascript" src="<?php echo base_url('res/') ?>js/jquery.dataTables.min.js"></script>
 	<script type="text/javascript" src="<?php echo base_url('res/') ?>js/dataTables.bootstrap.min.js"></script>

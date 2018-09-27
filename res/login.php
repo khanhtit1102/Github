@@ -23,7 +23,7 @@
 							<legend>Bạn muốn học các khóa học của chúng tôi?<br>Đăng nhập đi để trải nghiệm nào!</legend>
 							<div class="form-group" align="center">
 								<label for="">Đăng Nhập Bằng <b>Email</b></label>
-								<ul class="error"><?php echo validation_errors('- '); ?></ul>
+								<ul class="error" style="color: red;"><?php echo validation_errors('- '); ?></ul>
 								<input type="text" class="form-control" name="email" id="email" placeholder="Email"">
 								<input type="password" class="form-control" name="pass" id="pass" placeholder="Mật khẩu">
 							</div>

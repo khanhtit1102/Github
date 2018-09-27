@@ -56,7 +56,9 @@
 			<td><?php echo $value['created_date']; ?></td>
 			<td style="display: flex;">
 				<a class="btn btn-success" href="<?php echo base_url('display?id=').$value['id_cs'] ?>" target="_blank" title="Xem khóa học"><i class="fa fa-list-alt"></i></a>
+				
 				<a class="btn btn-primary" href="edit_course/<?php echo $value['id_cs']; ?>" title="Sửa khóa học"><i class="fa fa-edit"></i></a>
+				
 				<a class="btn btn-danger" href="delete_course/<?php echo $value['id_cs']; ?>" title="Xóa khóa học" onclick="return confirm('Bạn thực sự muốn xóa khóa học này?')"><i class="fa fa-times"></i></a>
 			</td>
 		</tr>

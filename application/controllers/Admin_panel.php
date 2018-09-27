@@ -106,7 +106,7 @@ class Admin_Panel extends CI_Controller {
 			$data['about_user'] = $this->input->post('about_user');
 			$data['coin_user'] = $this->input->post('coin_user');
 			$data['permission_user'] = $this->input->post('permission_user');
-			$data['created_date'] = date("Y-m-d H:i:s");;
+			$data['created_date'] = date("Y-m-d H:i:s");
 
 			$model_update = new M_Admin();
 			$model_update->add_user($data);
@@ -114,6 +114,15 @@ class Admin_Panel extends CI_Controller {
 		}
 		$page = 'add_user';
 		$view->add_user($page);
+	}
+	public function chart_user()
+	{
+		$model = new M_Admin();
+		$view = new V_Admin();
+
+		$result = $model->load_chart_data();
+		$page = 'chart_user';
+		$view->chart_user($result, $page);
 	}
 	public function qlkh()
 	{
@@ -190,6 +199,15 @@ class Admin_Panel extends CI_Controller {
 		$page = 'add_course';
 		$view->add_course($page);
 	}
+	public function chart_course()
+	{
+		$model = new M_Admin();
+		$view = new V_Admin();
+
+		$result = $model->load_chart_data();
+		$page = 'chart_course';
+		$view->chart_course($result, $page);
+	}
 	public function qldh()
 	{
 		$model = new M_Admin();
@@ -198,5 +216,43 @@ class Admin_Panel extends CI_Controller {
 		$result = $model->qldh();
 		$page = 'qldh';
 		$view->qldh($result, $page);
+	}
+	public function chart_order()
+	{
+		$model = new M_Admin();
+		$view = new V_Admin();
+
+		$result = $model->load_chart_data();
+		$page = 'chart_order';
+		$view->chart_order($result, $page);
+	}
+	public function qlbl()
+	{
+		$model = new M_Admin();
+		$view = new V_Admin();
+
+		$result = $model->qlbl();
+		$page = 'qlbl';
+		$view->qlbl($result, $page);
+	}
+	public function delete_cmt($id = '')
+	{
+		$model = new M_Admin();
+		if ($id == null) {
+			redirect(base_url('admin_panel/qlbl'));
+		}
+		else{
+			$model->delete_cmt($id);
+			redirect(base_url('admin_panel/qlbl'));
+		}
+	}
+	public function chart_cmt()
+	{
+		$model = new M_Admin();
+		$view = new V_Admin();
+
+		$result = $model->load_chart_data();
+		$page = 'chart_cmt';
+		$view->chart_cmt($result, $page);
 	}
 }

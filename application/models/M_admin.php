@@ -96,8 +96,23 @@ class M_Admin extends CI_Model
 	}
 	public function qldh()
 	{
-		$this->db->select('own.*, user.name_user, course.ten_cs')->where('own.id_user = user.id_user AND own.id_cs = course.id_cs');
+		$this->db->select('own.*, user.name_user, course.ten_cs, course.gia_cs')->where('own.id_user = user.id_user AND own.id_cs = course.id_cs');
 		$query = $this->db->get('own,user,course');
+		return $query->result_array();
+	}
+	public function qlbl()
+	{
+		$this->db->select('cmt.*, course.ten_cs')->where('cmt.id_cs = course.id_cs');
+		$query = $this->db->get('cmt, course');
+		return $query->result_array();
+	}
+	public function delete_cmt($id)
+	{
+		$this->db->where('id_cmt', $id)->delete('cmt');
+	}
+	public function load_chart_data()
+	{
+		$query = $this->db->get('adminchat');
 		return $query->result_array();
 	}
 }
