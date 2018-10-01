@@ -31,9 +31,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST) {
 
 		if(!isset($message)) {
             $urlWb = $core->getAllData($_POST['url']);
-            echo "string";
-            die();
-            // header( 'Location: ' . $urlWb ) ;
+            header( 'Location: ' . $urlWb ) ;
 		}
 	}
 	else {

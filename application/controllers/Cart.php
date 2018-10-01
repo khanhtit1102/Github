@@ -22,8 +22,7 @@ class Cart extends CI_Controller {
 		//Kiểm tra số lượng giỏ hàng
 		$count = $model->count();
 		if ($count == 0) {
-			echo "<script type='text/javascript'>alert('Chưa có khóa nào trong giỏ hàng!');</script>";
-			header("Refresh:0; url=courses");
+			$this->session->set_userdata('error', 'Chưa có khóa nào trong giỏ hàng! <a href="courses">Mua thêm khóa học</a>');
 		}
 
 		if ($this->input->get('delete')) {
@@ -32,8 +31,8 @@ class Cart extends CI_Controller {
 			redirect(base_url('cart'));
 		}
 		if ($this->input->get('action') == 'buy') {
-			if ($this->session->userdata['tien_thua'] <= 0) {
-				echo "<script type='text/javascript'>alert('Bạn không đủ tiền! Vui lòng nạp thêm tiền để mua khóa học.');</script>";
+			if ($this->session->userdata['tien_thua'] < 0) {
+			$this->session->set_userdata('error', 'Bạn không đủ tiền! Vui lòng <a href="'.base_url("auth/money").'"">nạp thêm tiền</a> để mua khóa học.');
 			}
 			else{
 				$model->buy_all_cart();
@@ -49,5 +48,7 @@ class Cart extends CI_Controller {
 		
 
 		$view->index($result, $count);
+		$this->session->unset_userdata('error');
+
 	}
 }

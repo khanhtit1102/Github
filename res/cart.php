@@ -17,7 +17,11 @@
 	<main>
 		<div class="container">
 			<div class="row">
-				<hr><h2>Giỏ hàng: <?php echo $count; ?> khoá học</h2><hr><hr>
+				<br>
+				<?php if (isset($_SESSION['error'])) {
+					echo '<div class="alert alert-success" role="alert">'.$_SESSION['error'].'</div>';
+				} ?>
+				<h2>Giỏ hàng: <?php echo $count; ?> khoá học</h2><hr><hr>
 				<div class="trai col-md-8">
 					<div class="list-item">
 						<table>

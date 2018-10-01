@@ -39,7 +39,7 @@ class M_Cart extends CI_Model
 			$data = array(
 				'id_user' => $row['id_user'],
 				'id_cs' => $row['id_cs'],
-				'date_own' => now(),
+				'date_own' => date("Y-m-d"),
 			);
 			$this->db->insert('own', $data);
 		}
@@ -51,8 +51,7 @@ class M_Cart extends CI_Model
 		$this->db->update('user');
 		$this->session->userdata['coin_user'] = $this->session->userdata['tien_thua'];
 		$this->session->unset_userdata['tien_thua'];
-		echo "<script type='text/javascript'>alert('Mua thành công! Vào học thôi nào!');</script>";
-		header("Refresh:0; url=auth#mycourse");
+		$this->session->set_userdata('error', 'Mua thành công! <a href="auth">Vào học</a> thôi nào!');
 	}
 }
 

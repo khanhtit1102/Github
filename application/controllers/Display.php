@@ -29,8 +29,13 @@ class Display extends CI_Controller {
 		# Add to cart (My cart)
 		$status = '';
 		if ($this->input->post('add_to') == 'cart') {
-			$model->add_to_cart($data);
-			$status = "<div class='alert alert-success' style='margin: 0;'><strong>Thành công!</strong> Sản phẩm đã được thêm vào giỏ hàng!<br>Vui lòng đi tới <a href='cart'>giỏ hàng</a> để thanh toán!</div>";
+			$result = $model->add_to_cart($data);
+			if ($result == 1) {
+				$status = "<div class='alert alert-success' style='margin: 0;'><strong>Thành công!</strong> Sản phẩm đã được thêm vào giỏ hàng!<br>Vui lòng đi tới <a href='cart'>giỏ hàng</a> để thanh toán!</div>";
+			}
+			if ($result == 0) {
+				$status = "<div class='alert alert-danger' style='margin: 0;'><strong>Ồ!</strong> Khóa học này đã có trong <a href='cart'>giỏ hàng</a> của bạn!</div>";
+			}
 		}
 
 		$result = $model->show_once_course($id);

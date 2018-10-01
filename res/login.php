@@ -23,8 +23,10 @@
 							<legend>Bạn muốn học các khóa học của chúng tôi?<br>Đăng nhập đi để trải nghiệm nào!</legend>
 							<div class="form-group" align="center">
 								<label for="">Đăng Nhập Bằng <b>Email</b></label>
-								<ul class="error" style="color: red;"><?php echo validation_errors('- '); ?></ul>
-								<input type="text" class="form-control" name="email" id="email" placeholder="Email"">
+								<ul class="error" style="color: red;"><?php echo validation_errors('- '); if (isset($_SESSION['error'])) {
+									echo '- '.$_SESSION['error'];
+								} ?></ul>
+								<input type="text" class="form-control" name="email" id="email" placeholder="Email" autocomplete="off">
 								<input type="password" class="form-control" name="pass" id="pass" placeholder="Mật khẩu">
 							</div>
 							<div id="btnsubmit">
@@ -39,6 +41,28 @@
 						<a href="" target="_blank"><button type="button" class="btn btn-warning"><i class="fa fa-google-plus"></i>Google+</button></a>
 					</div><br>
 					<div class="login" align="center">
+						<a href="" class="" data-toggle="modal" data-target=".modal-forgot-password"><b>Quên mật khẩu?</b></a>
+						<!-- Modal -->
+						<div class="modal fade modal-forgot-password" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="display: none;">
+							<div class="modal-dialog modal-sm">
+								<div class="modal-content">
+
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+										<h4 class="modal-title" id="mySmallModalLabel">Tìm lại mật khẩu của bạn</h4>
+									</div>
+									<div class="modal-body">
+										<form action="forgot_password" method="POST" role="form">
+											<div class="form-group">
+												<input type="email" name="email" class="form-control" placeholder="Nhập email của bạn" required="">
+											</div>
+											<button type="submit" class="btn btn-primary">Tìm lại mật khẩu</button>
+										</form>
+									</div>
+								</div>
+							</div>						
+						</div>
+						<!-- /.Modal -->
 						<p>Chưa có tài khoản? <a href="register"><b>Đăng Ký</b></a></p>
 					</div>
 				</div>
@@ -49,7 +73,6 @@
 		<?php include "includes/footer.php" ?>
 	</footer>
 	<!-- Script -->
-	<script type="text/javascript" src="../res/js/test.js"></script>
 	<script type="text/javascript" src="../res/bs/js/jquery.js"></script>
 	<script type="text/javascript" src="../res/bs/js/bootstrap.min.js"></script>
 </body>

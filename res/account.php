@@ -2,6 +2,9 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
+	<meta content='Học trực tuyến cùng với những Giảng viên hàng đầu. Học online 24/7 - Tự tin làm chủ tương lai. Siêu thị bài giảng trực tuyến lớn nhất Việt Nam' name='description'>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<link rel="shortcut icon" type="image/x-icon" href="res/imgs/icon.png">
 	<title>Trang quản lý tài khoản</title>
 	<link rel="stylesheet" href="res/bs/css/bootstrap.min.css">
 	<link rel="stylesheet" href="res/awesome/css/font-awesome.min.css">
@@ -38,16 +41,20 @@
 									echo "Status: <b>Teacher</b>";
 								}
 								if ($row['permission_user'] == 1) {
-									echo "Status: <b>Actived</b>";
+									echo "Status: <b>Member</b>";
 								}
 								if ($row['permission_user'] == 0) {
 									echo "Status: <b>Non-active</b>";
 								}
 								echo '<br>Số tiền: <b>'.$_SESSION['coin_user'].'</b>đ';
 							?>
+							<br><a href="auth/money" class="btn btn-default">Nạp thêm tiền</a>
 						</div>
 						<form action="" method="POST" role="form" enctype="multipart/form-data">
 							<div class="col-md-8">
+								<?php if (isset($_SESSION['error'])) {
+									echo '<div class="alert alert-success" role="alert">'.$_SESSION['error'].'</div>';
+								} ?>
 								<legend>Thông tin cơ bản</legend>
 								<div class="form-group">
 									<label for="">Họ tên đầy đủ:</label>
@@ -59,7 +66,7 @@
 									<label for="">Giới thiệu bản thân:</label>
 									<textarea name="about_user" id="" class="form-control" rows="3"><?php echo $row['about_user']; ?></textarea>
 								</div>
-								<button type="submit" name="changeinfo" value="changeinfo" class="btn btn-danger" style="float: right;">Lưu thay đổi</button>
+								<button type="submit" name="changeinfo" value="changeinfo" class="btn btn-primary" style="float: right;">Lưu thay đổi</button>
 								<a href="auth/logout"><button type="button" class="btn btn-danger" onclick="return confirm('Bạn thực sự muốn đăng xuất?')">ĐĂNG XUẤT</button></a>
 								<?php 
 									if ($row['permission_user'] == 3) {
@@ -79,20 +86,21 @@
 				<div id="security" class="tab-pane fade">
 					<div class="row">
 						<div class="col-md-offset-3 col-md-6">
+							<?php if (isset($_SESSION['error'])) {
+								echo '<div class="alert alert-success" role="alert">'.$_SESSION['error'].'</div>';
+							} ?>
 							<form action="" method="POST" role="form">
-								<legend>Kích hoạt Email và đổi mật khẩu</legend>
+								<legend>Đổi mật khẩu</legend>
 								<div class="form-group">
 									<label for="">Email: </label>
 									<input type="text" class="form-control" id="" value="<?php echo $row['email_user']; ?>" disabled>
 									<br>
-									<ul class="error"><?php echo validation_errors('- '); ?></ul>
 									<label for="">Mật khẩu hiện tại: </label>
-									<input type="password" class="form-control" name="oldpass" id="" placeholder="**********">
+									<input type="password" class="form-control" name="oldpass" id="" placeholder="●●●●●●●●●●">
 									<br>
 									<label for="">Mật khẩu mới: </label>
-									<input type="password" class="form-control" name="newpass" id="" placeholder="**********">
+									<input type="password" class="form-control" name="newpass" id="" placeholder="●●●●●●●●●●">
 								</div>
-								<a href='#' target='_blank' class='btn btn-default'>Kích hoạt Email</a>
 								<button type="submit" name="changepass" value="changepass" class="btn btn-primary" style="float: right;">Lưu thay đổi</button>
 							</form>
 						</div>

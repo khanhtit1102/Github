@@ -25,9 +25,6 @@ class Auth extends CI_Controller {
 
 			$data = $model->show_once();
 
-			
-			$view->show_info($data, $owner);
-
 			if ($this->input->post('changeinfo') == 'changeinfo') {
 				$id = $this->session->userdata('id_user');
 				$name = $this->input->post('name_user');
@@ -38,11 +35,17 @@ class Auth extends CI_Controller {
 			}
 			if ($this->input->post('changepass') == 'changepass') {
 				$id = $this->session->userdata('id_user');
-				$oldpass = md5($this->input->post('oldpass'));
-				$newpass = md5($this->input->post('newpass'));
+				$oldpass = $this->input->post('oldpass');
+				$newpass = $this->input->post('newpass');
 
 				$model->changepass($id, $oldpass, $newpass);
 			}
+			
+			$view->show_info($data, $owner);
+
+			$this->session->unset_userdata('error');
+
+			
 		}
 		else{
 			redirect(base_url('auth/login'));
@@ -61,6 +64,7 @@ class Auth extends CI_Controller {
 				$this->load->view('v_auth');
 				$view = new V_Auth();
 				$view->show_login();
+				$this->session->unset_userdata('error');
 			}
 			else{
 				$this->login_submit();
@@ -70,12 +74,24 @@ class Auth extends CI_Controller {
 	}
 	public function login_submit()
 	{
+		$this->load->model('m_auth');
+		$model = new M_Auth();
+
 		if ($this->input->post('login') == 'login') {
 			$email = $this->input->post('email');
 			$pass = md5($this->input->post('pass'));
-			$this->load->model('m_auth');
-			$model = new M_Auth();
-			$model->login($email, $pass);
+			$error = $model->login($email, $pass);
+			if ($error == 2) {
+				$this->session->set_userdata('error', 'Tài khoản của bạn chưa được kích hoạt!<br>- Vui lòng kiểm tra lại hộp thư đến trong Email!');
+			}
+			if ($error == 1) {
+				$this->session->set_userdata('error', 'Đăng nhập thành công!');
+				redirect(base_url('auth'));
+			}
+			if ($error == 0){
+				$this->session->set_userdata('error', 'Tài khoản hoặc mật khẩu không đúng! Vui lòng nhập lại!');
+			}
+			redirect(base_url('auth/login'));
 		}
 		else{
 			redirect(base_url('auth/login'));
@@ -95,6 +111,7 @@ class Auth extends CI_Controller {
 				$this->load->view('v_auth');
 				$view = new V_Auth();
 				$view->show_register();
+				$this->session->unset_userdata('error');
 			}
 			else{
 				$this->register_submit();
@@ -105,18 +122,164 @@ class Auth extends CI_Controller {
 	}
 	public function register_submit()
 	{
+		
 		if ($this->input->post('register') == 'register') {
 			$username = $this->input->post('username');
 			$email = $this->input->post('email');
 			$pass = md5($this->input->post('pass'));
+			$date = date("Y-m-d");
+			$code = $this->generateRandomString();
+
+			// Tạo dữ liệu gửi Email
+			$link = base_url('auth/request/').'?type=active&email='.$email.'&code='.$code;
+			$message = 'Xin chào '.$username.' !<br>Email của bạn đã được sử dụng để kích hoạt tài khoản trên hệ thống Edumall.<br>Nếu bạn thực hiện việc này, hãy bấm vào <a href="'.$link.'">đây</a> để kích hoạt!<br>Hoặc đường liên kết sau: '.$link.'<br>- Nếu bạn không thực hiện việc này, hãy bỏ qua thư của chúng tôi.<br>Cảm ơn bạn!';
+			$result = $this->sendMail($email, $subject, $message);
+			if ($result == 1) {
+				$this->session->set_userdata('error', '<b>Gửi Email thành công!</b>!<br>Hãy kiểm tra lại hộp thư đến trong Email để xác nhận!');
+			}
+			if ($result == 0) {
+				$this->session->set_userdata('error', '<b>Lỗi gửi Email!</b><br>Đây là lỗi của chúng tôi.<br>Liên hệ <a href="mailto:khanhtit113@gmail.com">Admin</a> để báo lỗi.');
+			}
+			// Đã gửi Email
+
 			$this->load->model('m_auth');
 			$model = new M_Auth();
-			$model->register($username, $email, $pass);
-			echo "<meta http-equiv='refresh' content='0; url=".base_url('auth/register')."' />";
+			$model->register($username, $email, $pass, $date, $code);
+		}
+		redirect(base_url('auth/register'));
+	}
+	public function generateRandomString($length = 10) {
+		$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$charactersLength = strlen($characters);
+		$randomString = '';
+		for ($i = 0; $i < $length; $i++) {
+			$randomString .= $characters[rand(0, $charactersLength - 1)];
+		}
+		return $randomString;
+	}
+	public function request()
+	{
+		$type = $this->input->get('type');
+		$email = $this->input->get('email');
+		$code = $this->input->get('code');
+		if ($type == NULL || $email == NULL || $code == NULL) {
+			redirect(base_url('auth'));
 		}
 		else{
-			redirect(base_url('auth/register'));
+			$this->load->model('m_auth');
+			$model = new M_Auth();
+
+			if ($type == 'active') {
+				$result = $model->active($email, $code);
+				if ($result == 1) {
+					$this->session->set_userdata('error', 'Kích hoạt tài khoản thành công!');
+				}
+				else{
+					$this->session->set_userdata('error', 'Kích hoạt tài khoản không thành công hoặc bạn đã kích hoạt trước đó!');
+				}
+			redirect(base_url('auth'));
+			}
+			if ($type == 'forgot_password') {
+				$result = $model->check_code($email, $code);
+				if ($result == 1) {
+					if ($this->input->post('newpass')) {
+						$newpass = md5($this->input->post('newpass'));
+						$model->reset_pass($email, $newpass, $code);
+						$this->session->set_userdata('error', 'Mật khẩu của bạn đã được đổi!');
+						redirect(base_url('auth'));
+					}
+					$this->load->view('v_auth');
+					$view = new V_Auth();
+					$view->reset_pass();
+				}
+				else{
+					redirect(base_url('auth'));
+				}
+			}
 		}
+	}
+	public function forgot_password()
+	{
+		$email = $this->input->post('email');
+		if ($email == NULL) {
+			$this->session->set_userdata('error', 'Tìm lại mật khẩu trống!');
+		}
+		else{
+			$this->load->model('m_auth');
+			$model = new M_Auth();	
+			$result = $model->forgot_pass($email);
+
+			// Nếu nhập đúng Email có trong hệ thống
+			if ($result == 1) {
+
+				// Tạo dữ liệu gửi Email
+				$code = $this->generateRandomString();
+				$link = base_url('auth/request/').'?type=forgot_password&email='.$email.'&code='.$code;
+				$message = 'Xin chào !<br>Bạn đã yêu cầu cấp lại mật khẩu tài khoản của bạn trên hệ thống Edumall.<br>Nếu bạn thực hiện việc này, hãy bấm vào <a href="'.$link.'">đây</a> để đặt lại mật khẩu!<br>Hoặc đường liên kết sau: '.$link.'<br>- Nếu bạn không thực hiện việc này, hãy bỏ qua thư của chúng tôi.<br>Cảm ơn bạn!';
+				$result_email = $this->sendMail($email, $subject, $message);
+				if ($result_email == 1) {
+					$this->session->set_userdata('error', '<b>Gửi Email thành công!</b>!<br>Hãy kiểm tra lại hộp thư đến trong Email để xác nhận!');
+				}
+				if ($result_email == 0) {
+					$this->session->set_userdata('error', '<b>Lỗi gửi Email!</b><br>Đây là lỗi của chúng tôi.<br>Liên hệ <a href="mailto:khanhtit113@gmail.com">Admin</a> để báo lỗi.');
+				}
+				// Đã gửi Email
+				$model->set_code($email, $code);
+			}
+			else{
+				$this->session->set_userdata('error', '<b>Lỗi!</b><br>Email bạn nhập vào không có trong hệ thống của chúng tôi!');
+			}
+		}
+		redirect(base_url('auth'));
+	}
+	private function sendMail($email, $subject, $message)
+	{
+		$config = Array(
+			'protocol' => 'smtp',
+			'smtp_host' => 'ssl://smtp.googlemail.com',
+			'smtp_port' => 465,
+  			'smtp_user' => 'khanhtit113@gmail.com',
+  			'smtp_pass' => 'khanhtit1102',
+  			'mailtype' => 'html',
+  			'charset' => 'UTF-8',
+  			'wordwrap' => TRUE
+  		);
+		
+		$this->load->library('email', $config);
+		$this->email->set_newline("\r\n");
+     	$this->email->from('khanhtit113@gmail.com');
+    	$this->email->to($email);
+    	$this->email->subject($subject);
+    	$this->email->message($message);
+    	if($this->email->send())
+    	{
+    		$result = 1;
+    	}
+    	else
+    	{
+    		$result = 0;
+    		// show_error($this->email->print_debugger());
+    	}
+    	return $result;
+
+    }
+    public function money()
+	{
+		if ($this->session->has_userdata('id_user') == FALSE) {
+			redirect(base_url('auth'));
+		}
+		$this->load->view('v_auth');
+		$view = new V_Auth();
+		$this->load->model('m_auth');
+		$model = new M_Auth();
+		if ($this->input->post('nap_the') == 'submit') {
+			$menh_gia = $this->input->post('menh_gia');
+			$model->add_money($menh_gia);
+			$this->session->set_userdata('error', 'Nạp thêm '.$menh_gia.' VND thành công!');
+			redirect(base_url('auth'));
+		}
+		$view->add_money();
+		$this->session->unset_userdata('error');
 	}
 	public function logout()
 	{
@@ -124,11 +287,5 @@ class Auth extends CI_Controller {
 		$this->session->sess_destroy();
 		redirect(base_url('auth/login'));
 	}
-	public function money($number = '0')
-	{
-		$this->load->model('m_auth');
-		$model = new M_Auth();
-		$model->add_money($number);
-		redirect(base_url('auth'));
-	}
+	
 }

@@ -19,12 +19,13 @@ class M_Display extends CI_Model
 		$this->db->from('cart')->where('id_user', $data['id_user'])->where('id_cs', $data['id_cs']);
     	$count = $this->db->count_all_results();
 		if ($count == 1) {
-			echo "<script type='text/javascript'>alert('Khóa học này đã có trong giỏ hàng!');</script>";
-			header("Refresh:0; url=cart");
+			$result = 0;
 		}
 		else{
 			$this->db->insert('cart', $data);
+			$result = 1;
 		}
+		return $result;
 	}
 }
 

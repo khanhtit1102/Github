@@ -15,4 +15,12 @@ class V_Auth
 	{
 		include "res/account.php";
 	}
+	public function add_money()
+	{
+		include "res/add_money.php";
+	}
+	public function reset_pass()
+	{
+		include "res/reset_pass.php";
+	}
 }
