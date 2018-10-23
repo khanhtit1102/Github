@@ -30,9 +30,11 @@
 				<div id="info" class="tab-pane fade in active">
 					<div class="row">
 						<div class="col-md-4 avatar" align="center">
-							<img src="res/imgs/<?php echo $row['avatar_user']; ?>" alt="">
+							<img src="<?php echo base_url('res/uploads/').$row['avatar_user']; ?>" alt="Avatar">
 							<br>
-							<input type="file" accept=".png, .jpg, .jpeg" name="image" class="form-control" style="width: 80%;"><br>
+							<form action="" method="POST" role="form" enctype="multipart/form-data">
+								<input type="file" accept=".png, .jpg, .jpeg" name="image" class="form-control" style="width: 80%;"><br>
+								<button type="submit" class="btn btn-default" name="change_image" value="submit" style="width: 80%;">Thay đổi ảnh đại diện</button><br><br>
 							<?php 
 								if ($row['permission_user'] == 3) {
 									echo "Status: <b>Administrator</b>";
@@ -49,6 +51,8 @@
 								echo '<br>Số tiền: <b>'.$_SESSION['coin_user'].'</b>đ';
 							?>
 							<br><a href="auth/money" class="btn btn-default">Nạp thêm tiền</a>
+							
+							</form>
 						</div>
 						<form action="" method="POST" role="form" enctype="multipart/form-data">
 							<div class="col-md-8">
@@ -66,7 +70,7 @@
 									<label for="">Giới thiệu bản thân:</label>
 									<textarea name="about_user" id="" class="form-control" rows="3"><?php echo $row['about_user']; ?></textarea>
 								</div>
-								<button type="submit" name="changeinfo" value="changeinfo" class="btn btn-primary" style="float: right;">Lưu thay đổi</button>
+								<button type="submit" name="changeinfo" value="changeinfo" class="btn btn-info" style="float: right;">Lưu thay đổi</button>
 								<a href="auth/logout"><button type="button" class="btn btn-danger" onclick="return confirm('Bạn thực sự muốn đăng xuất?')">ĐĂNG XUẤT</button></a>
 								<?php 
 									if ($row['permission_user'] == 3) {

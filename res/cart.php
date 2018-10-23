@@ -70,12 +70,12 @@
 						</thead>
 					</table>
 					<?php 
-						// if ($price != 0) {
+						if ($price != 0) {
 						
 					 ?>
 					<a href="cart?action=buy" class="btn btn-success">Mua Khoá Học</a><br><br>
 					<a href="cart?action=cancel" class="btn btn-danger">Huỷ Hoá Đơn</a>
-					<?php //} ?>
+					<?php } ?>
 				</div>
 			</div>
 		</div>

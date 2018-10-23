@@ -123,7 +123,7 @@
 						if ($i % 2 == 0) {
 							echo '<li class="right clearfix">';
 							echo '<span class="chat-img pull-right">';
-							echo '<img src="'.base_url("res/imgs/").$value["avatar_user"].'" alt="User Avatar" class="img-circle" width="50px">';
+							echo '<img src="'.base_url("res/uploads/").$value["avatar_user"].'" alt="User Avatar" class="img-circle" width="50px">';
 							echo '</span>';
 							echo '<div class="chat-body clearfix">';
 							echo '<div class="header">';
@@ -138,7 +138,7 @@
 						else{
 							echo '<li class="left clearfix">';
 							echo '<span class="chat-img pull-left">';
-							echo '<img src="'.base_url("res/imgs/").$value["avatar_user"].'" alt="User Avatar" class="img-circle" width="50px">';
+							echo '<img src="'.base_url("res/uploads/").$value["avatar_user"].'" alt="User Avatar" class="img-circle" width="50px">';
 							echo '</span>';
 							echo '<div class="chat-body clearfix">';
 							echo '<div class="header">';
@@ -170,7 +170,7 @@
 	<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<i class="fa fa-bell fa-fw"></i> Notifications Panel
+				<i class="fa fa-bell fa-fw"></i> Today News
 				<div class="pull-right">
 					<div class="btn-group">
 						<a href=""><button type="button" class="btn btn-default btn-xs">Refresh</button></a>
@@ -180,48 +180,33 @@
 			<div class="panel-body">
 				<div class="list-group">
 					<a href="#" class="list-group-item">
-						<i class="fa fa-comment fa-fw"></i> New Comment
-						<span class="pull-right text-muted small"><em>4 minutes ago</em>
+						<i class="fa fa-comment fa-fw"></i> New Course
+						<span class="pull-right small"><em>4 minutes ago</em>
 						</span>
 					</a>
 					<a href="#" class="list-group-item">
-						<i class="fa fa-twitter fa-fw"></i> 3 New Followers
-						<span class="pull-right text-muted small"><em>12 minutes ago</em>
+						<i class="fa fa-twitter fa-fw"></i> New Member
+						<span class="pull-right small"><em>12 minutes ago</em>
 						</span>
 					</a>
 					<a href="#" class="list-group-item">
-						<i class="fa fa-envelope fa-fw"></i> Message Sent
-						<span class="pull-right text-muted small"><em>27 minutes ago</em>
+						<i class="fa fa-envelope fa-fw"></i> New Order
+						<span class="pull-right small"><em>27 minutes ago</em>
 						</span>
 					</a>
 					<a href="#" class="list-group-item">
-						<i class="fa fa-tasks fa-fw"></i> New Task
-						<span class="pull-right text-muted small"><em>43 minutes ago</em>
+						<i class="fa fa-tasks fa-fw"></i> New Comment
+						<span class="pull-right small"><em>43 minutes ago</em>
 						</span>
 					</a>
 					<a href="#" class="list-group-item">
-						<i class="fa fa-upload fa-fw"></i> Server Rebooted
-						<span class="pull-right text-muted small"><em>11:32 AM</em>
-						</span>
-					</a>
-					<a href="#" class="list-group-item">
-						<i class="fa fa-bolt fa-fw"></i> Server Crashed!
-						<span class="pull-right text-muted small"><em>11:13 AM</em>
-						</span>
-					</a>
-					<a href="#" class="list-group-item">
-						<i class="fa fa-warning fa-fw"></i> Server Not Responding
-						<span class="pull-right text-muted small"><em>10:57 AM</em>
-						</span>
-					</a>
-					<a href="#" class="list-group-item">
-						<i class="fa fa-shopping-cart fa-fw"></i> New Order Placed
-						<span class="pull-right text-muted small"><em>9:49 AM</em>
+						<i class="fa fa-upload fa-fw"></i> Email Sent
+						<span class="pull-right small"><em>11:32 AM</em>
 						</span>
 					</a>
 					<a href="#" class="list-group-item">
 						<i class="fa fa-money fa-fw"></i> Payment Received
-						<span class="pull-right text-muted small"><em>Yesterday</em>
+						<span class="pull-right small"><em>Yesterday</em>
 						</span>
 					</a>
 				</div>

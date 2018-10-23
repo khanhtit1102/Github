@@ -235,7 +235,7 @@
 					<div class="col-md-12" align="center">
 						<h1>Chưa tìm ra khoá học bạn muốn?</h1>
 						<h2>Đừng lo, còn hàng trăm khoá học tại Edumall.</h2><br><br>
-						<a href="courses.php" target="_blank"><button type="button" class="btn btn-danger">TOÀN BỘ KHOÁ HỌC</button></a>
+						<a href="<?php echo base_url('courses'); ?>"><button type="button" class="btn btn-danger">TOÀN BỘ KHOÁ HỌC</button></a>
 					</div>
 				</div>
 			</div>
@@ -250,7 +250,7 @@
 					<h2>Trở thành</h2>
 					<h1>GIẢNG VIÊN</h1>
 					<h2>Edumall</h2>
-					<a href="" target="_blank"><button type="button" class="btn btn-primary">THAM GIA NGAY</button></a>
+					<a href="<?php echo base_url('auth'); ?>" target="_blank"><button type="button" class="btn btn-primary">THAM GIA NGAY</button></a>
 				</div>
 			</div>
 		</section>

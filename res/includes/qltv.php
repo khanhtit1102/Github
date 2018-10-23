@@ -18,7 +18,7 @@
 		foreach ($result as $key => $value) {
 	?>
 		<tr>
-			<td><center><img src="<?php echo base_url('res/imgs/').$value['avatar_user']; ?>" alt="" width="40px"></center></td>
+			<td><center><img src="<?php echo base_url('res/uploads/').$value['avatar_user']; ?>" alt="" width="40px"></center></td>
 			<td><?php echo $value['name_user']; ?></td>
 			<td><a href="mailto:<?php echo $value['email_user']; ?>"><?php echo $value['email_user']; ?></a></td>
 			<td>

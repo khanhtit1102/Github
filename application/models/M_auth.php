@@ -133,6 +133,12 @@ class M_Auth extends CI_Model
 		$query = $this->db->get('course');
 		return $query->result_array();
 	}
+	public function change_image($file_name, $id_user)
+	{
+		$this->db->set('avatar_user', $file_name);
+		$this->db->where('id_user', $id_user);
+		$this->db->update('user');
+	}
 	public function changeinfo($id, $name, $job, $about)
 	{
 		$sql = "UPDATE user SET name_user = '$name', job_user = '$job', about_user = '$about' WHERE id_user = '$id'";
